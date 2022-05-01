@@ -104,5 +104,24 @@
           - 이는 곧 Power Iteration Algorithm으로 dominant한 고유값과 그에 대응하는 고유벡터를 구하는 것과 같다.
           - 따라서, dominant한 고유값에 대응하는 고유벡터의 값을 각 노드에 대응하는 중요도로 사용할 수 있다.  
 
+<br>
+
+- Node Centrality (2)
+  - Betweenness centrality
+    - 특정 노드가 다른 노드 사이의 최단 경로에 많이 포함될수록 중요도가 높다고 보는 것.
+    - <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_7.PNG?raw=true"><br>
+
+<br>
+
+- Node Centrality (3)
+  - Closeness centrality
+    - 특정 노드와 다른 각각의 노드와의 최단경로를 계산, 그 합이 작을수록 중요도가 높다고 보는 것.
+    - <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_8.PNG?raw=true"><br>
+
+<br>
+
+- Node Features : Clustering Coefficient
+
+
 
 
