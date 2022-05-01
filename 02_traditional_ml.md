@@ -42,12 +42,12 @@
   - 회색 노드가 ML을 거쳐 초록색 또는 빨강색 노드로 분류됨
   - 자세히 보면, 초록 노드는 2개 이상의 노드와 연결되어있고, 빨강 노드는 단 1개의 노드와 연결되어 있음
   - 해당 정보를 feature로 모델에 전달하면, 모델은 해당 정보를 바탕으로 노드를 분류할 수 있게 되는 것임
-  - 따라서, ML needs feautures.
+  - 따라서, **ML needs feautures.**
 
 <br> 
 
 - Node-level Features: Overview
-  - 목표 : 네트워크에 속한 노드의 구조와 위치를 특성화(Characterize)하는 것 
+  - 목표 : **네트워크에 속한 노드의 구조와 위치를 특성화(Characterize)***하는 것 
     - Node degree
     - Node centrality
     - Clustering coefficient
@@ -89,7 +89,7 @@
         - 즉, 각 노드의 중요도가 모두 1로 같다고 보고 시작하자. <br><br>
       - 그 다음으로, 이 값을 어떻게 업데이트할지 생각해보자. 
         - 우리가 특정 그래프 안을 무작위로 돌아다닌다고 할 때(Random Walk), 특정 노드를 많이 방문한다면 그 노드는 중요도가 높은 노드라고 말할 수 있을 것이다.
-        - 그렇다면 우리는 저 초기값을 '특정 노드에서 다른 노드로 이동하는 정보', 즉 돌아다닐 수 있는 길의 정보를 사용해 업데이트해야 할 것이다.
+        - 그렇다면 우리는 저 초기값을 **'특정 노드에서 다른 노드로 이동하는 정보'**, 즉 돌아다닐 수 있는 길의 정보를 사용해 업데이트해야 할 것이다.
         - '특정 노드에서 다른 노드로 이동하는 정보'를 우리는 인접행렬(adjacency matrix)로 표현할 수 있다.
         - 그럼 업데이트된 c는 이전 c에 인접행렬 A를 곱해준 정보이다! (실제로 초기값에 A를 곱한 값은 node degree이다. 궁금하면 직접 해보면 바로 나온다.)
         - 업데이트된 c의 값들은 이전보다 계속 커질 것이므로, 아무튼 λ 같은 값으로 나눠준다. <br><br>
@@ -98,7 +98,7 @@
         - 그럼 더이상 업데이트할 필요가 없으니 해당 벡터 c를 가져다 쓰면 되겠다.
         - 이러한 상태를 식으로 표현하면 아래와 같다.
           - <img src="https://render.githubusercontent.com/render/math?math=c_{t %2B 1} = \frac{1}{\lambda}Ac_{t}">
-          - t+1기나 t기나 같으니까 해당 표현을 빼주고, 람다를 좌변에 곱해주면, 비로소 재귀적 형태를 행렬 형태로 바꿀 수 있게 된다. <br><br>
+          - t+1기나 t기나 같으니까 해당 표현을 빼주고, 람다를 좌변에 곱해주면, **비로소 재귀적 형태를 행렬 형태로 바꿀 수 있게 된다**. <br><br>
           - <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_6.PNG?raw=true"><br>
           - 그런데, 공교롭게도 그 형태가 고유벡터의 정의와 일치한다. 그래서 Engienvector centrality라고 부르는 것이다.
           - 이는 곧 Power Iteration Algorithm으로 dominant한 고유값과 그에 대응하는 고유벡터를 구하는 것과 같다.
@@ -150,9 +150,91 @@
   -  <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_13.PNG?raw=true"><br>
   -  <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_14.PNG?raw=true"><br>
 
+<br><br><br><br>
 
+- Link-Level Prediction Task: Recap, Link Prediction as a Task
+  - 존재하는 링크를 바탕으로 (이후 발생할) **새로운 링크**를 예측하기
+  - 링크 예측 문제의 2가지 공식(formulation)
+    - 1) Links missing at random
+      - 일부러 몇 개의 링크를 무작위로 제거한 후, 이를 예측하도록 함
+      - 단백질 구조와 같은 정적 네트워크 문제에 활용  
+    - 2) Links over time
+      - t기까지의 그래프가 주어졌을 때, t+1기에 새로 생성될 링크를 예측하도록 함
+      - SNS와 같은 동적 네트워크 문제에 활용 
 
+<br>
 
+- Link Prediction via Proximity(근접성)
+  - Methodology
+    - 각 노드 페어 (x,y)에 대해 스코어 c(x,y)를 계산
+      - 예를 들어, c(x,y)는 x와 y의 공통 이웃의 수 같은 것이 될 수 있음
+    - 각 페어(x,y)를 스코어 내림차순으로 정렬
+    - 상위 n개 페어를 새로운 링크로 예측
+    - 실제로 t+1기에 예측된 링크가 실제로 나타나는지 확인
+
+ <br>
+ 
+- Link-Level Features: Overview
+  - Distance-based feature
+  - Local neighborhood overlap
+  - Global neighborhood overlap
+
+ <br>
+ 
+- Distance-Based Features
+  - 2개 노드 사이의 최단거리
+  - <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_15.PNG?raw=true"><br>
+  - 그러나, 이는 겹치는 이웃의 수를 포착하지는 못한다.
+    - 노드 페어 (B,H)는 C,D의 2개 노드를 이웃으로 공유하지만, (B,E)와 (A,B)는 1개의 노드만을 이웃으로 공유함 
+
+ <br>
+ 
+- Local Neighborhood Overlap
+  - 2개 노드가 공유하는 이웃 노드의 수를 포착함
+  - <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_16.PNG?raw=true"><br> 
+    - Jaccard’s coefficient(자카드 계수) : 두 집합의 교집합을 합집합으로 나눈 값
+    - Adamic-Adar index : x와 y의 이웃 노드 z에 대해, z의 이웃 노드가 적을수록 더 높은 가중치를 주겠다는 것
+      - 오직 x와 y만을 이웃으로 갖는 z라면 이는 특별한 관계를 의미함
+      - x와 y 외에도 다른 많은 노드를 이웃으로 갖는 z라면 z를 공통 이웃으로 두는 것이 큰 의미를 갖지 않음 <br><br>
+  - Local Neighborhood feature의 한계
+    - 2개 노드가 공통 이웃을 1개도 가지지 않는 경우의 metric은 항상 0임
+    - 그러나, 그 2개 노드는 미래에 연결될 가능성을 여전히 가지고 있음
+    - Global neighborhood overlap은 이러한 한계를 전체 그래프를 고려함으로써 해결함
+
+<br>
+
+- Global Neighborhood Overlap
+  - **Katz index** : 주어진 노드 페어들 사이의 가능한 모든 길이의 경로 수를 세는 것
+  - 2개 노드 사이의 모든 경로 수를 어떻게 계산할 수 있는가?
+    - 그래프 인접행렬의 거듭제곱(powers of the graph adjacency matrix)을 사용!
+    - 사실 위에서 보았던 Engienvector centrality와 유사함
+
+<br>
+
+- Intuition: Powers of Adj Matrices
+  - 2개 노드 사이의 모든 경로의 수를 계산하는 방법
+    - <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_17.PNG?raw=true"><br>
+    - 여기서의 인접행렬은 두 노드를 연결하는 길이가 1인 경로의 수를 계산한 것 (경로가 있거나 없거나 둘 중 하나이므로 0 또는 1로 표현됨)<br><br>
+  - 길이가 2인 경로의 수를 계산하는 방법은?
+    - <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_18.PNG?raw=true"><br>
+    - <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_19.PNG?raw=true"><br>
+    - 행렬을 l번 거듭제곱하여, 길이가 l인 경로의 수를 계산할 수 있음
+
+<br>
+
+- Global Neighborhood Overlap
+  - v1과 v2 사이의 Katz index는 아래와 같이 계산됨
+  - <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_20.PNG?raw=true"><br>
+    - <img src="https://render.githubusercontent.com/render/math?math=\beta">는 경로의 길이가 길수록 작은 값(가중치)이 곱해지도록 설계
+    - 아래와 같은 closed-form으로 계산됨
+    - <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_21.PNG?raw=true"><br>
+
+<br>
+
+- Link-Level Features: Summary
+  - <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_22.PNG?raw=true"><br>
+
+<br><br><br><br>
 
 
 
