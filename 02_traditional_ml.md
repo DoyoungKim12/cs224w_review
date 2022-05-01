@@ -121,6 +121,38 @@
 <br>
 
 - Node Features : Clustering Coefficient
+  - 노드 v의 이웃 노드들이 얼마나 연결되어있는지 측정하는 것
+  - <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_9.PNG?raw=true"><br>
+    - 파랑 노드의 이웃 노드는 총 4개(빨강 노드)로, 이웃 간 가능한 링크의 수는 총 6개
+    - 가능한 경우의 수인 6개 중 몇 개가 이어졋느냐에 따라 Clustering Coefficient를 측정
+    - 1개의 파랑 노드와 2개의 빨강 노드, 총 3개의 노드가 만드는 삼각형의 갯수를 세는 것으로도 이해할 수 있음
+
+<br>
+
+- Node Features: Graphlets
+  - Graphlets : pre-specified subgraphs (사전에 정의된 그래프의 형태)
+  - Rooted connected non-isomorphic subgraphs
+    - 노드 수에 따라 가능한 그래프의 형태는 정해져있고, 그 형태를 각각의 서브그래프로 정의한 것
+    - <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_10.PNG?raw=true"><br><br>
+  - GDV(Graphlet Degree Vector) : 특정 노드를 표현하는 Graphlet 기반의 feature
+    - GDV는 특정 노드가 포함된 Graphlet의 개수를 세는 것 (A count vector of graphlets rooted at a given node.)
+    - <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_11.PNG?raw=true"><br><br>
+  - 2~5개 노드의 graphlet을 고려함으로써 아래와 같은 효과를 얻음
+    - 73차원(coordinates)의 벡터는 (해당 노드의) 이웃 노드의 위상 배치(topology)를 묘사하게 된다.
+    - 4-hops distance까지의 상호연결성을 포착하게 된다. <br><br>
+  - GDV는 노드의 local network topology의 측정치를 제공한다.
+    - node degree, clustering coefficient보다 local topology 유사도에 대한 자세한 측정치를 제공한다. 
+
+<br>
+
+ - Node-Level Features: Summery
+  -  <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_12.PNG?raw=true"><br>
+  -  <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_13.PNG?raw=true"><br>
+  -  <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_14.PNG?raw=true"><br>
+
+
+
+
 
 
 
