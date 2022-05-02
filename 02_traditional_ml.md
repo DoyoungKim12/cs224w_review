@@ -236,6 +236,80 @@
 
 <br><br><br><br>
 
+- Graph-Level Features
+  - 목표 : 전체 그래프의 구조를 특성화(Characterize)하는 것
+
+<br>
+
+- Background: Kernel Methods
+  - Kernel Methods는 그래프 레벨의 예측 문제를 풀기 위한 전통적인 ML 방법론으로 폭넓게 사용되었음
+  - 아이디어 : feature vector 대신 kernel을 설계하기
+  - 커널에 대한 빠른 설명
+    - Kernel K(G,G′)∈R은 데이터(그래프) 간의 유사도를 계산한다.
+    - Kernel Matrix <img src="https://render.githubusercontent.com/render/math?math=K=(K(G,G\prime))_{G,G\prime}">은 항상 positive semidefinite한 행렬이다.
+      - \*positive semidefinite은 위키피디아에 나와있듯이, 항상 양의 실수를 고유값으로 가진다.
+    - 임의의 함수 ϕ는 feature vector를 생성하는 함수이며, 다음과 같이 정의된다.
+      - K(G,G′)=ϕ(G)Tϕ(G′)
+    - 커널이 일단 정의되면, kernel SVM과 같은 off-the-shelf ML 기법이 사용 가능하다. 
+
+<br>
+
+- Graph-Level Features: Overview
+  - Graph Kernels: **두 그래프간의 유사도를 측정**
+    - Graphlet Kernel
+    - Weisfeiler-Lehman Kernel
+    - Other kernels are also proposed in the literature
+      - 해당 수업의 범위를 벗어남 (Random-walk kernel, Shortest-path graph kernel 등)
+
+<br>
+
+- Graph Kernel: Key Idea
+  - 목표 : 그래프 피쳐 벡터인 ϕ(G)를 설계하는 것
+  - 핵심 아이디어 : Bag-of-Words(BoW)를 그래프에 적용
+    - BoW는 단순히 문서에 포함된 단어별 개수만을 피쳐로 활용, 단어의 순서는 고려하지 않음
+    - 그래프로의 Naïve한 확장 : 노드를 마치 단어처럼 취급하기
+    - 아래처럼 4개의 빨강 노드가 있는 그래프가 있을 때, 우리는 2개의 다른 그래프로부터 같은 피쳐 벡터를 얻게됨
+      - <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_23.PNG?raw=true"><br><br>
+  - 그렇다면 Bag of nodes 대신 Bag of node degrees를 사용해보자
+    - <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_24.PNG?raw=true"><br>
+    - node degree가 각각 1,2,3인 node의 수를 세어 두 그래프의 다름을 표현함
+    - Graphlet Kernel과 Weisfeiler-Lehman 모두 그래프를 Bag of \* 표현한 것이고, \*는 node degrees 보다는 보다 정교한 무언가이다
+
+<br>
+
+- Graphlet Features
+  - 핵심 아이디어 : 그래프 내의 그래플릿 수를 센다.
+    - 참고 : 여기서의 그래플릿 정의는 노드 레벨에서의 정의와 약간 다름
+    - 2개의 차이점이 존재
+      - 그래플릿의 노드가 꼭 연결되어있지 않아도 됨 (고립된 노드도 허용)
+      - 기준점이 되는 노드를 따로 두지 않음 (not rooted)
+      - 예시는 아래와 같음
+        - <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_25.PNG?raw=true"><br><br>
+  - Graphlet count vector를 아래와 같이 정의할 수 있음
+    - <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_26.PNG?raw=true"><br><br> 
+    - 예시로, k=3인 그래플릿의 카운트 벡터는 아래처럼 구할 수 있음
+      - <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_27.PNG?raw=true"><br><br>      
+
+<br>
+
+- Graphlet Kernel
+  - <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_28.PNG?raw=true"><br><br>
+  - 한계 : 그래플릿의 수를 세는 것은 계산비용이 크다!
+    - 만약 크기가 k인 모든 graphlet을 크기가 n인 그래프에서 찾아서 세고자 한다면, 이는 <img src="https://render.githubusercontent.com/render/math?math=n^k">만큼의 계산이 필요하다.
+    - 최악의 경우에는 이를 피할 수 없게 되는데, 왜냐하면 subgraph isomorphism test(특정 그래프가 다른 그래프의 서브그래프인지 판단하기)는 NP-hard 문제이기 때문이다.
+      - (NP-hard는 다항시간내에 풀 수 없는 문제를 말한다. 다항 방정식 대신에 지수 방정식으로 풀 수 있는 문제를 말한다. 즉 결정적 다항식으로 구성할 수 없다는 것이다. NP-hard라고 해서 다항식이 아니라는 것은 아니다. 다만 다항식으로 표현될 수 있을지의 여부가 아직 알려지지 않았다라는 것이다. 즉, NP-Hard란 TSP문제와 같이 모든 경우의 수를 일일히 확인해보는 방법이외에는 다항식처럼 답을 풀이할 수 없는 문제들을 말한다. NP-hard의 예로 외판원 문제가 있다.)<br>
+    - 만약 그래프의 최대 node degree가 d로 제한되어 있다면, <img src="https://render.githubusercontent.com/render/math?math=O(nd^{k-1})">의 복잡도로 크기가 k인 모든 그래플릿의 수를 세는 알고리즘이 존재한다.
+    - 보다 효율적인 그래프 커널을 설계할 수는 없을까?
+
+<br>
+
+- Weisfeiler-Lehman Kernel
+  -  
+
+
+
+
+
 
 
 
