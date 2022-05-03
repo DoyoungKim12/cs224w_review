@@ -321,7 +321,7 @@
 
 <br>
  
-- Color Refinement (1) ~ (4)
+- Color Refinement (1) ~ (4) <br>
 <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_29.PNG?raw=true"><br><br> 
 <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_30.PNG?raw=true"><br><br> 
 <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_31.PNG?raw=true"><br><br>
@@ -329,20 +329,19 @@
 
 <br>
 
-- Weisfeiler-Lehman Graph Features
+- Weisfeiler-Lehman Graph Features <br>
 <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_33.PNG?raw=true"><br><br>
 
 <br>
 
-- Weisfeiler-Lehman Kernel
+- Weisfeiler-Lehman Kernel <br>
 <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_34.PNG?raw=true"><br><br> 
   - WL kernel은 **효율적인 연산이 가능함**
     - Color refinement를 수행할 때 각 스텝에서의 시간복잡도는 엣지의 수에 선형적인데, 그 이유는 그 과정이 이웃한 노드의 색을 집계하는 것을 포함하기 때문이다.
   - kernel의 값을 계산할 때, 두 그래프에서 등장하는 색만 추적하면 됨
     - 따라서 가능한 색깔의 수는 전체 노드의 수와 같다.
   - 색깔의 수를 세는 것은 노드의 수에 선형적인 복잡도를 가짐
-  - 종합적으로 시간복잡도는 엣지의 수에 선형적임<br><br>   
-
+  - 종합적으로 시간복잡도는 엣지의 수에 선형적임 <br><br>   
   - 색을 만드는 과정 : O(엣지의 수)
   - 색의 갯수 : O(노드의 수)
   - 색을 세는 과정 : O(노드의 수)
