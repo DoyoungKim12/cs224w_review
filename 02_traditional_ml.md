@@ -304,12 +304,58 @@
 <br>
 
 - Weisfeiler-Lehman Kernel
-  -  
+  - 목표 : 효율적으로 그래프 피쳐를 묘사하는 ϕ(G)를 설계하는 것
+  - 아이디어 : node vocabulary을 풍부하게 만들기 위해 반복적으로 이웃 구조를 사용하기
+    - Bag of node degrees의 일반화된 버전으로, node degrees는 1-hop의 정보만을 제공함
+  - 이를 구현하기 위한 알고리즘 : **Color refinement**
 
+<br>
 
+- Color Refinement
+  - 그래프 G가 노드 집합 V로 이루어져 있을 때, 
+    - 초기 색 <img src="https://render.githubusercontent.com/render/math?math=c^{(0)}(v)">를 각 노드 v에 배정한다.
+    - 다음 식을 이용해 반복적으로 색을 변화시킨다.
+      - <img src="https://render.githubusercontent.com/render/math?math=c^{(k %2B 1)}(v) = HASH(c^{(k)}(v), \{c^{(k)}(u)\}_{u \in N(v)})">
+      - 즉, 노드 v의 다음 색은 현재 노드 v의 색과 이웃 노드 u의 색을 인풋으로 받는 해쉬 함수를 이용해서 만들어지는 것이다.
+    - 이를 일정 수준 이상으로 반복하게 되면 <img src="https://render.githubusercontent.com/render/math?math=c^{(k)}(v)">는 K-hop만큼의 이웃 노드에 대한 정보를 요약하게 된다. 
 
+<br>
+ 
+- Color Refinement (1) ~ (4)
+<img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_29.PNG?raw=true"><br><br> 
+<img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_30.PNG?raw=true"><br><br> 
+<img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_31.PNG?raw=true"><br><br>
+<img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_32.PNG?raw=true"><br><br>
 
+<br>
 
+- Weisfeiler-Lehman Graph Features
+<img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_33.PNG?raw=true"><br><br>
 
+<br>
+
+- Weisfeiler-Lehman Kernel
+<img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_34.PNG?raw=true"><br><br> 
+  - WL kernel은 **효율적인 연산이 가능함**
+    - Color refinement를 수행할 때 각 스텝에서의 시간복잡도는 엣지의 수에 선형적인데, 그 이유는 그 과정이 이웃한 노드의 색을 집계하는 것을 포함하기 때문이다.
+  - kernel의 값을 계산할 때, 두 그래프에서 등장하는 색만 추적하면 됨
+    - 따라서 가능한 색깔의 수는 전체 노드의 수와 같다.
+  - 색깔의 수를 세는 것은 노드의 수에 선형적인 복잡도를 가짐
+  - 종합적으로 시간복잡도는 엣지의 수에 선형적임<br><br>   
+
+  - 색을 만드는 과정 : O(엣지의 수)
+  - 색의 갯수 : O(노드의 수)
+  - 색을 세는 과정 : O(노드의 수)
+  - 전체 과정 : O(엣지의 수)
+  - 위와 같이 모든 과정이 선형적인 시간 복잡도를 가지기 때문에, 사이즈가 큰 그래프에 대해서도 빠르게 연산이 가능
+
+<br>
+
+- Graph-Level Features: Summary
+  - <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_35.PNG?raw=true"><br><br> 
+
+<br>
+
+<img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_36.PNG?raw=true"><br><br> 
 
 
