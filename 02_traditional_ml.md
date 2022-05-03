@@ -82,7 +82,7 @@
     - 따라서, 우리는 노드 v의 centrality를 이웃한 노드의 centrality의 합으로 모델링할 수 있음
       - <img src="https://github.com/DoyoungKim12/cs224w_review/blob/main/img_cs224w/cs224w_2_5.PNG?raw=true"><br>
         - 노드는 centrality vector c를 (지금은 그 값을 모르지만 아무튼) 가진다고 생각하자.(이것을 예측하는 것이 목표)
-        - N(v)는 v의 노드 집합이다.
+        - N(v)는 v의 이웃 노드 집합이다.
         - λ는 정규화 인자이다. <br><br>
     - 이는 재귀적(recursive)인 방식으로 정의되는데, 이를 어떻게 풀 수 있을까?<br><br>
       - 일단 우리는 c를 모르니까, 모든 값을 1로 초기화하자. 노드가 4인 그래프라면 \[1,1,1,1]이 될 것이다.
